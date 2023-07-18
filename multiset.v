@@ -122,4 +122,50 @@ Proof.
         - rewrite Nat.eqb_sym; reflexivity.
 Qed.
 
+Lemma le_one_cases: forall n m, 1 <= n + m -> 1 <= n \/ 1 <= m.
+Proof.
+    intros. induction n.
+        - auto.
+        - simpl in H. rewrite <- Nat.succ_le_mono in H. specialize (Nat.add_nonneg_cases n m H) as H'.
+        destruct H'.
+            + left; rewrite <- Nat.succ_le_mono; assumption.
+            + destruct m.
+                * left. rewrite <- Nat.succ_le_mono. rewrite plus_n_O. assumption.
+                * assert (1 <= n + S m).
+                {
+                    rewrite Nat.add_succ_r. rewrite <- Nat.succ_le_mono. 
+                    apply le_0_n.
+                }
+                {
+                    apply IHn in H1. destruct H1.
+                    - left. apply Nat.le_le_succ_r. assumption.
+                    - right. assumption.
+                }
+Qed.
 
+Lemma le_add_r2: forall a b c, a <= b -> a <= b + c.
+Proof.
+    intros. induction c.
+        - rewrite <- plus_n_O. assumption.
+        -  rewrite Nat.add_succ_r. apply Nat.le_le_succ_r. assumption.
+Qed. 
+Lemma union_mem: forall s1 s2 x, x ∈ (s1 ∪ s2) <-> (x ∈ s1) \/ (x ∈ s2).
+Proof.
+    intros; split.
+        - intros. unfold In in *. unfold "∪" in H.
+        apply le_one_cases. assumption.
+        - intros H; destruct H; unfold In in *; unfold "∪" .
+            + apply le_add_r2. assumption.
+            + rewrite Nat.add_comm. apply le_add_r2. assumption.
+Qed.
+
+Lemma union_comm: forall s1 s2, s1 ∪ s2 = s2 ∪ s1.
+Proof.
+    intros;apply Extensionality_multiset; unfold "∪"; unfold "⩵"; intros.
+    apply Nat.add_comm.
+Qed.
+Lemma inter_comm: forall s1 s2, s1 ∩ s2 = s2 ∩ s1.
+Proof.
+    intros;apply Extensionality_multiset; unfold "∩"; unfold "⩵"; intros.
+    apply Nat.min_comm.
+Qed.

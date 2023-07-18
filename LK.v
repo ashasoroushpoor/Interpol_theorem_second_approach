@@ -4,11 +4,7 @@ Require Import multiset.
 Import List.ListNotations.
 
 
-Axiom prop_to_nat: prop -> nat.
-Axiom nat_to_prop: nat -> prop.
 
-Axiom prop_to_prop: forall p, nat_to_prop(prop_to_nat(p)) = p.
-Axiom nat_to_nat: forall n, prop_to_nat(nat_to_prop(n)) = n.
 
 Coercion p_nat (p : prop) : nat := prop_to_nat(p).
 (* Coercion nat_p (n : nat) : prop := nat_to_prop(n). *)
