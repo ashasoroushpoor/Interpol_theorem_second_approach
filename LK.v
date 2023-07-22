@@ -1,9 +1,8 @@
 Require Import Lang.
 Require Import List.
 Require Import multiset.
+(* Require Import Ensembles. *)
 Import List.ListNotations.
-
-
 
 
 Coercion p_nat (p : prop) : nat := prop_to_nat(p).
@@ -54,16 +53,14 @@ G ⤑ (D ⨣ b) >< n -> G  ⤑ (D ⨣ (a ∨ b)) >< (☉ n)
 (* 11 *)
 |LKlO: forall G D (a b : prop) m n,
 (G ⨣ a) ⤑ D >< n -> (G ⨣ b) ⤑ D >< m -> (G ⨣ (a ∨ b)) ⤑ D >< (m ≍ n)
-(* Negation *)
+(* Bot *)
 (* 12 *)
-|LKrN: forall G D (a : prop) n, (G ⨣ a) ⤑ D >< n -> G  ⤑ (D ⨣ (¬ a)) >< (☉ n)
-(* 13 *)
-|LKlN: forall G D (a : prop) n, G ⤑ (D ⨣ a) >< n -> (G ⨣ (¬ a)) ⤑ D >< (☉ n)
+| LKB : forall D, {{ ⊥ }} ⤑ D >< leaf
 (* Implication *)
-(* 14 *)
+(* 13 *)
 |LKrI: forall G D (a b : prop) n, (G ⨣ a) ⤑ (D ⨣ b) >< n
 -> G  ⤑ (D ⨣ (a ⊃ b)) >< (☉ n)
-(* 15 *)
+(* 14 *)
 |LKlI: forall G D (a b : prop) m n,
 G ⤑ (D ⨣ a) >< n -> (G ⨣ b) ⤑ D >< m -> (G ⨣ (a ⊃ b)) ⤑ D >< (m ≍ n)
 where "G ⤑ p >< n" := (LKS n G p).
@@ -72,7 +69,15 @@ Lemma mp : forall p q : prop, exists n, ({{p}} ⨣ (p ⊃ q)) ⤑ {{q}} >< n.
 Proof.
     intros.
     exists ((☉ leaf) ≍ (☉ leaf)).
-    constructor 15.
+    constructor 14.
      - rewrite single_add. constructor 2. constructor 1.
      - rewrite single_add. constructor 3. constructor 1.
+Qed.
+(* Lemma LKlB: forall G D, exists m, G ⨣ ⊥ ⤑ D >< m.
+Lemma LKlN: forall G D (a : prop) n, G ⤑ (D ⨣ a) >< n -> exists m, (G ⨣ (¬ a)) ⤑ D >< m.
+Unporvable. *)
+Lemma LKrN : forall G D (a : prop) n, (G ⨣ a) ⤑ D >< n -> G  ⤑ (D ⨣ (¬ a)) >< (☉ (☉ n)).
+Proof.
+    intros.
+    unfold Neg. constructor 13. constructor 2. assumption.
 Qed.
