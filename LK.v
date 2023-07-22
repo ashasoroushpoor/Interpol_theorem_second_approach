@@ -32,7 +32,7 @@ Inductive LKS : Node -> multiset -> multiset -> Prop :=
 (* 4 *)
 |LKrC: forall G D p n, G ⤑ (D ⨣ p) ⨣ p >< n  -> G ⤑ (D ⨣ p) >< (☉ n)
 (* 5 *)
-|LKlC: forall G D p n, (G ⨣ p) ⨣ p ⤑ D >< n -> 2 <= (G p) -> (G ⨣ p) ⤑ D >< (☉ n)
+|LKlC: forall G D p n, (G ⨣ p) ⨣ p ⤑ D >< n  -> (G ⨣ p) ⤑ D >< (☉ n)
 (* Logical Rules *)
 (* Conjunction *)
 (* 6 *)

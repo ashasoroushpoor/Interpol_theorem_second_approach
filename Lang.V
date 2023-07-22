@@ -4,6 +4,7 @@ Definition atom := nat.
 
 Inductive prop : Type :=
 | Var : atom  -> prop
+| Bot : prop
 | Neg : prop -> prop
 | Disj : prop -> prop -> prop
 | Conj : prop -> prop -> prop
