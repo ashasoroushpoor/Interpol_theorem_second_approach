@@ -8,5 +8,5 @@ TODO List:
 - Expand the proof to Lyndon's Interpolation Theorem
 - Prove using Pitts method
 - Prove soundness and completeness of this Calculus over the traditional one (I might need to change the Bot rule and make some small changes to the proof so the context be finite)
-End Goal
-    Prove Uniform Interpolation Theorem in Subsequent Logic
+### End Goal
+- Prove Uniform Interpolation Theorem in Subsequent Logic
