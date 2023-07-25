@@ -20,6 +20,8 @@ Axiom nat_to_nat: forall n, prop_to_nat(nat_to_prop(n)) = n.
 
 Notation "^x_ x" := (Var x) (at level 30).
 Coercion atom_as_prop (a : atom) : prop := Var a.
+Coercion p_nat (p : prop) : nat := prop_to_nat(p).
+
 
 Notation "⊥" := Bot. (* 22a5 *)
 Notation "⊤" := Top. (* 22a4 *)
@@ -66,7 +68,7 @@ Proof.
     subst. apply propeq_refl.
 Qed.
 
-Theorem propeq_eq_iff: forall p q, p = q <-> propeq p q.
+(* Theorem propeq_eq_iff: forall p q, p = q <-> propeq p q.
 Proof.
     intros. split; intros.
     - apply eq_propeq. assumption.
@@ -76,7 +78,7 @@ Proof.
         + apply andb_prop in H1. destruct H1.  admit.
         + apply andb_prop in H1. destruct H1. admit.
         + apply andb_prop in H1. destruct H1. admit.
-Admitted.
+Admitted. *)
 
 Theorem eqb_eq: forall (p q :nat), (PeanoNat.Nat.eqb p q) <-> nat_to_prop p = nat_to_prop q.
 Proof.

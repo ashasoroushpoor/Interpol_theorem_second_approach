@@ -4,7 +4,6 @@ Require Import multiset.
 Import List.ListNotations.
 
 
-Coercion p_nat (p : prop) : nat := prop_to_nat(p).
 (* Coercion nat_p (n : nat) : prop := nat_to_prop(n). *)
 
 Reserved Notation "G ⇥ p >< n" (no associativity, at level 68).

@@ -248,3 +248,55 @@ Proof.
     unfold "⨣".
     destruct (PeanoNat.Nat.eqb b x), (PeanoNat.Nat.eqb a x); try reflexivity.
 Qed.
+
+Definition option_add (s : multiset) (op : option prop) : multiset :=
+    match op with
+    | None => s
+    | Some p => s ⨣ p
+    end.
+
+Lemma add_sing_refl: forall p q, {{p}} ⨣ q = {{q}} ⨣ p.
+Proof.
+    intros. apply equal_ext. unfold Equal. intros. unfold Singleton. unfold "⨣".
+    destruct (PeanoNat.Nat.eqb q x) ,(PeanoNat.Nat.eqb p x); simpl; try reflexivity.
+Qed.
+Lemma EmptySetDef: ∅ = fun (x : U) => 0.
+Proof.
+    apply equal_ext. unfold Equal. intros. unfold "∅". reflexivity.
+Qed.
+Lemma add_in_union: forall s1 s2 s3 p, s1 ⨣ p = s2 ∪ s3 -> p ∈ s2 \/ p ∈ s3.
+Proof. intros.
+    rewrite equal_ext in H. unfold Equal in H. specialize (H p) as H'.
+    unfold "⨣" in H'. rewrite PeanoNat.Nat.eqb_refl in H'.
+    unfold "∪" in H'. assert (1 <= S (s1 p)).
+        * apply le_n_S. apply le_0_n.
+        * rewrite H' in H0. apply le_one_cases in H0. destruct H0.
+            **left. assumption.
+            **right. assumption.
+Qed.
+Lemma in_add_unfold: forall s1 p, p ∈ s1 -> exists s', s' ⨣ p = s1.
+Proof.
+    intros. exists (s1 ⨪ p). rewrite equal_ext. unfold Equal. intros. unfold "⨪". unfold "⨣". 
+    destruct (PeanoNat.Nat.eqb p x) eqn: E.
+    - apply PeanoNat.Nat.eqb_eq in E. subst. unfold In in H. 
+    apply (PeanoNat.Nat.lt_succ_pred 0). assumption.
+    - reflexivity.
+Qed.
+Lemma add_union_remove: forall s1 s2 p, s1 ⨣ p = s2 ⨣ p -> s1 = s2.
+Proof.
+    intros. rewrite equal_ext. unfold Equal. intros.
+    rewrite equal_ext in H. unfold Equal in H. specialize (H x) as H'.
+    unfold "⨣" in H'. destruct (PeanoNat.Nat.eqb p x); inversion H'; subst; reflexivity.
+Qed.
+Lemma add_union_extrac: forall s1 s2 p, s1 ∪ (s2 ⨣ p) = (s1 ∪ s2) ⨣ p.
+Proof.
+    intros. rewrite equal_ext. unfold Equal. intros.
+    unfold "⨣". unfold "∪".
+    destruct (PeanoNat.Nat.eqb p x).
+    - rewrite PeanoNat.Nat.add_succ_r. reflexivity.
+    - reflexivity.
+Qed.
+Lemma le_S_one: forall n, 1 <= S n.
+Proof.
+    intros. apply le_n_S. apply le_0_n.
+Qed.
