@@ -300,3 +300,19 @@ Lemma le_S_one: forall n, 1 <= S n.
 Proof.
     intros. apply le_n_S. apply le_0_n.
 Qed.
+
+Definition option_to_multiset (op : option prop) :=
+    match op with
+    | None => ∅
+    | Some p => {{ p }}
+    end.
+Lemma in_add: forall G a (p : prop), a ∈ G -> a ∈ (G ⨣ p).
+Proof.
+    intros. unfold In in *. unfold SAdd. destruct (PeanoNat.Nat.eqb p a).
+        - apply le_S_one.
+        - assumption.
+Qed.
+Lemma In_emp_false : forall x, x ∈ ∅ -> False.
+Proof.
+    intros. unfold In in H. unfold "∅" in H. inversion H.
+Qed.
