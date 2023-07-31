@@ -10,4 +10,4 @@ TODO List (Future plans):
 - [ ] Prove using Pitts method
 - [ ] Prove soundness and completeness of this Calculus over the traditional one (I might need to change the Bot rule and make some small changes to the proof so the context be finite)
 ### End Goal
-- Prove Uniform Interpolation Theorem in Subsequent Logic
+- Prove Uniform Interpolation Theorem in a substructural logic.
